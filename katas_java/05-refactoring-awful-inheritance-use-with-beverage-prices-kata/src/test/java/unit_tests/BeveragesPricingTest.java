@@ -1,6 +1,8 @@
 package unit_tests;
 
 import beverages.*;
+import supplements.*;
+import java.util.ArrayList;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -28,25 +30,43 @@ public class BeveragesPricingTest {
 
     @Test
     public void computes_tea_with_milk_price() {
-        Tea teaWithMilk = new TeaWithMilk();
-        assertThat(teaWithMilk.price(), is(closeTo(1.60, 0.001)));
+        Beverage tea    = new Tea();
+        Supplement milk = new MilkSupplement();
+        tea.addSupplement(milk);
+        assertThat(tea.total(), is(closeTo(1.60, 0.001)));
     }
 
     @Test
     public void computes_coffee_with_milk_price() {
-        Coffee coffeeWithMilk = new CoffeeWithMilk();
-        assertThat(coffeeWithMilk.price(), is(closeTo(1.30, 0.001)));
+        Supplement milk = new MilkSupplement();
+        ArrayList<Supplement> list = new ArrayList<Supplement>();
+        list.add(milk);
+
+        Beverage coffee = new Coffee(list);
+        assertThat(coffee.total(), is(closeTo(1.30, 0.001)));
     }
 
     @Test
     public void computes_coffee_with_milk_and_cream_price() {
-        Coffee coffeeWithMilkAndCream = new CoffeeWithMilkAndCream();
-        assertThat(coffeeWithMilkAndCream.price(), is(closeTo(1.45, 0.001)));
+        Supplement milk  = new MilkSupplement();
+        Supplement cream = new CreamSupplement();
+        //
+        ArrayList<Supplement> list = new ArrayList<Supplement>();
+        list.add(milk);
+        list.add(cream);
+        //
+        Beverage coffee = new Coffee(list);
+        assertThat(coffee.total(), is(closeTo(1.45, 0.001)));
     }
 
     @Test
     public void computes_hot_chocolate_with_cream_price() {
-        HotChocolateWithCream hotChocolateWithCream = new HotChocolateWithCream();
-        assertThat(hotChocolateWithCream.price(),  is(closeTo(1.60, 0.001)));
+        Supplement cream = new CreamSupplement();
+        //
+        ArrayList<Supplement> list = new ArrayList<Supplement>();
+        list.add(cream);
+        //
+        Beverage hotChocolate = new HotChocolate(list);
+        assertThat(hotChocolate.total(),  is(closeTo(1.60, 0.001)));
     }
 }
